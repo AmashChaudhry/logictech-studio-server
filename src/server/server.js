@@ -1,8 +1,9 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import routes from '../server/routes.js';
-import { privateIP } from '../helpers/privateIP.js';
+import { privateIP } from '../helpers/private-ip.js';
 import { connectMongodb } from '../lib/mongodb-config.js';
 
 dotenv.config();
@@ -16,6 +17,8 @@ app.use(cors({
     methods: ['GET', 'POST'],
     credentials: true,
 }));
+
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
     res.send('LogicTech Studio');

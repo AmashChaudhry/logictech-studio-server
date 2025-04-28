@@ -1,4 +1,5 @@
 import express from 'express';
+import jwt from "jsonwebtoken";
 import User from "../models/user-model.js";
 
 const router = express.Router();
@@ -23,7 +24,23 @@ router.post('/login-user', async (req, res) => {
             return res.status(400).json({ error: "Sorry, your password was incorrect. Please double-check your password." });
         }
 
-        await user.save();
+        const tokenData = {
+            id: user._id,
+            isAdmin: user.isAdmin,
+        }
+
+        const token = jwt.sign(tokenData, process.env.TOKEN_SECRET, {
+            expiresIn: '3d',
+        });
+
+        const cookieMaxAge = undefined;
+
+        res.cookie("token", token, {
+            secure: false,
+            httpOnly: true,
+            maxAge: cookieMaxAge,
+            sameSite: 'lax',
+        });
 
         return res.status(200).json({
             success: true,
