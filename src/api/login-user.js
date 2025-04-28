@@ -12,7 +12,6 @@ router.post('/login-user', async (req, res) => {
             $or: [
                 { email: identity },
                 { username: identity },
-                { phoneNumber: identity },
             ],
         });
 
