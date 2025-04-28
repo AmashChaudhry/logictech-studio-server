@@ -6,13 +6,12 @@ router.use(express.json());
 
 router.post('/register-user', async (req, res) => {
     try {
-        const { fullName, username, email, phoneNumber, password } = req.body;
+        const { fullName, username, email, password } = req.body;
 
         const user = await User.findOne({
             $or: [
                 { email },
                 { username },
-                { phoneNumber },
             ],
         });
 
@@ -20,15 +19,12 @@ router.post('/register-user', async (req, res) => {
             return res.status(400).json({ usernameError: "An account with these details already exists." });
         }
 
-        const userData = {};
-
-        if (email) userData.email = email;
-        if (username) userData.username = username;
-        if (phoneNumber) userData.phoneNumber = phoneNumber;
-        if (fullName) userData.fullName = fullName;
-        if (password) userData.password = password;
-
-        const newUser = new User(userData);
+        const newUser = new User({
+            fullName,
+            username,
+            email,
+            password,
+        });
 
         const savedUser = await newUser.save();
 
