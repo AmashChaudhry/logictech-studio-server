@@ -17,7 +17,7 @@ router.post('/login-user', async (req, res) => {
         });
 
         if (!user) {
-            return res.status(400).json({ error: "The details provided is not associated with any account." });
+            return res.status(400).json({ error: "The details provided is not associated with your account." });
         }
 
         if (password != user.password) {
