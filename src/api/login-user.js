@@ -33,7 +33,7 @@ router.post('/login-user', async (req, res) => {
             expiresIn: '3d',
         });
 
-        const cookieMaxAge = 60 * 60 * 24 * 3;
+        const cookieMaxAge = 3 * 24 * 60 * 60 * 1000;
 
         res.cookie("token", token, {
             secure: false,
