@@ -1,6 +1,6 @@
 import express from 'express';
 import User from "../models/user-model.js";
-import { dataFromToken } from '../helpers/data-from-token.js';
+import { dataFromToken } from '../helpers/auth-token-manager.js';
 
 const router = express.Router();
 router.use(express.json());

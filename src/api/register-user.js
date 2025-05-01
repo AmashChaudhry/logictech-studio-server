@@ -1,5 +1,6 @@
 import express from 'express';
 import User from '../models/user-model.js';
+import { signToken } from '../helpers/auth-token-manager.js';
 
 const router = express.Router();
 router.use(express.json());
@@ -28,8 +29,12 @@ router.post('/register-user', async (req, res) => {
 
         const savedUser = await newUser.save();
 
+        await signToken(res, {
+            id: savedUser._id,
+            isAdmin: savedUser.isAdmin,
+        });
+
         return res.status(200).json({
-            message: 'User successfully registered',
             success: true,
             data: savedUser,
         });

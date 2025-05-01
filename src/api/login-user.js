@@ -1,6 +1,6 @@
 import express from 'express';
-import jwt from "jsonwebtoken";
 import User from "../models/user-model.js";
+import { signToken } from '../helpers/auth-token-manager.js';
 
 const router = express.Router();
 router.use(express.json());
@@ -24,22 +24,9 @@ router.post('/login-user', async (req, res) => {
             return res.status(400).json({ error: "Sorry, your password was incorrect. Please double-check your password." });
         }
 
-        const tokenData = {
+        await signToken(res, {
             id: user._id,
             isAdmin: user.isAdmin,
-        }
-
-        const token = jwt.sign(tokenData, process.env.TOKEN_SECRET, {
-            expiresIn: '3d',
-        });
-
-        const cookieMaxAge = 3 * 24 * 60 * 60 * 1000;
-
-        res.cookie("token", token, {
-            secure: false,
-            httpOnly: true,
-            maxAge: cookieMaxAge,
-            sameSite: 'lax',
         });
 
         return res.status(200).json({
