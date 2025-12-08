@@ -1,8 +1,8 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import routes from './routes.js';
 import cookieParser from 'cookie-parser';
-import routes from '../server/routes.js';
 import { privateIP } from '../helpers/private-ip.js';
 import { connectMongodb } from '../lib/mongodb-config.js';
 
